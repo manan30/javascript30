@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #eef1ef;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      body > div {
+        text-align: center;
+      }
+    </style>
+    <title>07 | Array Cardio Day 2</title>
+  </head>
+  <body>
+    <div>
+      <h2>07 | Array Cardio Day 2</h2>
+      <div>All output for this challenge will be in the dev tools console</div>
+    </div>
+  </body>
+  <script>
+    const people = [
+      { name: 'Wes', year: 1988 },
+      { name: 'Kait', year: 1986 },
+      { name: 'Irv', year: 1970 },
+      { name: 'Lux', year: 2015 },
+    ];
+
+    const comments = [
+      { text: 'Love this!', id: 523423 },
+      { text: 'Super good', id: 823423 },
+      { text: 'You are the best', id: 2039842 },
+      { text: 'Ramen is my fav food ever', id: 123523 },
+      { text: 'Nice Nice Nice!', id: 542328 },
+    ];
+
+    // Some and Every Checks
+
+    // Array.prototype.some()
+    // is at least one person 19 or older?
+    console.log(
+      'Array.prototype.some',
+      people.some((val) => {
+        const currentYear = new Date().getFullYear();
+        return currentYear - val.year >= 19;
+      })
+    );
+
+    // Array.prototype.every()
+    // is everyone 19 or older?
+    console.log(
+      'Array.prototype.every',
+      people.every((val) => {
+        const currentYear = new Date().getFullYear();
+        return currentYear - val.year >= 19;
+      })
+    );
+
+    // Array.prototype.find()
+    // Find is like filter, but instead returns just the one you are looking for
+    // find the comment with the ID of 823423
+    console.log(
+      'Array.prototype.find',
+      comments.find((val) => val.id === 823423)
+    );
+
+    // Array.prototype.findIndex()
+    // Find the comment with this ID 823423
+    const idx = comments.findIndex((val) => val.id === 823423);
+    console.log('Array.prototype.findIndex', idx);
+
+    // Delete the comment with the ID of 823423
+    console.log('Array.prototype.slice', [
+      ...comments.slice(0, idx),
+      ...comments.slice(idx + 1),
+    ]);
+  </script>
+</html>
