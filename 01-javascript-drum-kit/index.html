@@ -53,7 +53,7 @@
         background-color: #36494e;
         color: #f4f4f6;
 
-        transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 0.07s;
       }
 
       .key > span {
@@ -70,16 +70,47 @@
   </head>
   <body>
     <div class="keys">
-      <div class="key">A<span>Boom</span></div>
-      <div class="key">S<span>Clap</span></div>
-      <div class="key">D<span>Hi Hat</span></div>
-      <div class="key">F<span>Kick</span></div>
-      <div class="key">G<span>Open Hat</span></div>
-      <div class="key">H<span>Ride</span></div>
-      <div class="key">J<span>Snare</span></div>
-      <div class="key">K<span>Tink</span></div>
-      <div class="key">L<span>Tom</span></div>
+      <div class="key" data-key="65"><kbd>A</kbd><span>Boom</span></div>
+      <div class="key" data-key="83"><kbd>S</kbd><span>Clap</span></div>
+      <div class="key" data-key="68"><kbd>D</kbd><span>Hi Hat</span></div>
+      <div class="key" data-key="70"><kbd>F</kbd><span>Kick</span></div>
+      <div class="key" data-key="71"><kbd>G</kbd><span>Open Hat</span></div>
+      <div class="key" data-key="72"><kbd>H</kbd><span>Ride</span></div>
+      <div class="key" data-key="74"><kbd>J</kbd><span>Snare</span></div>
+      <div class="key" data-key="75"><kbd>K</kbd><span>Tink</span></div>
+      <div class="key" data-key="76"><kbd>L</kbd><span>Tom</span></div>
     </div>
+    <audio data-key="65" src="./assets/boom.wav"></audio>
+    <audio data-key="83" src="./assets/clap.wav"></audio>
+    <audio data-key="68" src="./assets/hihat.wav"></audio>
+    <audio data-key="70" src="./assets/kick.wav"></audio>
+    <audio data-key="71" src="./assets/openhat.wav"></audio>
+    <audio data-key="72" src="./assets/ride.wav"></audio>
+    <audio data-key="74" src="./assets/snare.wav"></audio>
+    <audio data-key="75" src="./assets/tink.wav"></audio>
+    <audio data-key="76" src="./assets/tom.wav"></audio>
   </body>
-  <script></script>
+  <script>
+    const keys = document.querySelector('.keys');
+    function playSound(e) {
+      const { keyCode } = e;
+      const audioEl = document.querySelector(`audio[data-key="${keyCode}"]`);
+      const keyDivEl = document.querySelector(`div[data-key="${keyCode}"]`);
+
+      if (!audioEl) return;
+
+      audioEl.currentTime = 0;
+      audioEl.play();
+
+      keyDivEl.classList.add('playing');
+    }
+
+    function transitionEndHandler(e) {
+      if (e.propertyName !== 'transform') return;
+      e.target.classList.remove('playing');
+    }
+
+    keys.addEventListener('transitionend', transitionEndHandler);
+    window.addEventListener('keydown', playSound);
+  </script>
 </html>
