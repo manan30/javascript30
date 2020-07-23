@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-image: url(./assets/background.jpg);
+        background-color: #eef1ef;
+        background-position: center;
+        background-size: cover;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .keys {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        width: calc(100% - 3rem);
+        margin: 0 1.5rem;
+      }
+
+      .key {
+        display: grid;
+        place-items: center;
+
+        height: 5rem;
+        width: 5rem;
+        padding: 1rem;
+
+        font-size: 2rem;
+
+        background-color: #36494e;
+        color: #f4f4f6;
+
+        transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .key > span {
+        font-size: 0.8rem;
+      }
+
+      .playing {
+        transform: scaleY(1.1);
+        border: 0.25rem solid #faf6f6;
+        box-shadow: 0 0 1.5rem #394053;
+      }
+    </style>
+    <title>01 | JavaScript Drum Kit</title>
+  </head>
+  <body>
+    <div class="keys">
+      <div class="key">A<span>Boom</span></div>
+      <div class="key">S<span>Clap</span></div>
+      <div class="key">D<span>Hi Hat</span></div>
+      <div class="key">F<span>Kick</span></div>
+      <div class="key">G<span>Open Hat</span></div>
+      <div class="key">H<span>Ride</span></div>
+      <div class="key">J<span>Snare</span></div>
+      <div class="key">K<span>Tink</span></div>
+      <div class="key">L<span>Tom</span></div>
+    </div>
+  </body>
+  <script></script>
+</html>
