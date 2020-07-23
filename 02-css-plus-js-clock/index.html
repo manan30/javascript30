@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #0c4767;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .analog-clock {
+        position: relative;
+
+        height: 20rem;
+        width: 20rem;
+
+        border: 1rem solid #f8f7ff;
+        border-radius: 50%;
+      }
+
+      .digital-clock {
+        display: flex;
+        align-items: center;
+        height: 5rem;
+      }
+
+      .digital-clock > div {
+        margin: 0 0.5rem;
+        font-size: 2rem;
+
+        color: #fbf9ff;
+      }
+
+      .hand {
+        position: absolute;
+        top: 50%;
+
+        height: 0.5rem;
+        width: calc(50% - 0.5rem);
+        margin-left: 0.5rem;
+
+        transform: rotate(90deg);
+        transform-origin: 100%;
+
+        background-color: #eac435;
+
+        transition: all 0.5s cubic-bezier(0.11, -1.09, 0.05, 2.05);
+      }
+
+      .minute-hand {
+        left: 12.5%;
+        width: 35%;
+
+        background-color: #5fbb97;
+      }
+
+      .hour-hand {
+        left: 22.5%;
+        width: 25%;
+        background-color: #da4167;
+      }
+    </style>
+    <title>02 | CSS + JS Clock</title>
+  </head>
+  <body>
+    <div class="analog-clock">
+      <div class="hand hour-hand"></div>
+      <div class="hand minute-hand"></div>
+      <div class="hand second-hand"></div>
+    </div>
+    <div class="digital-clock">
+      <div class="digital-clock-hour"></div>
+      :
+      <div class="digital-clock-minute"></div>
+      :
+      <div class="digital-clock-second"></div>
+    </div>
+  </body>
+  <script>
+    const hourHand = document.querySelector('.hour-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const secondHand = document.querySelector('.second-hand');
+
+    const digitalClockHour = document.querySelector('.digital-clock-hour');
+    const digitalClockMinute = document.querySelector('.digital-clock-minute');
+    const digitalClockSecond = document.querySelector('.digital-clock-second');
+
+    function updateClock() {
+      const date = new Date();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      const hourDegrees = (hour % 12) * 30 + 90;
+      const minuteDegrees = minutes * 6 + 90;
+      const secondDegrees = seconds * 6 + 90;
+
+      hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+      minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+      secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+
+      digitalClockHour.innerHTML = hour;
+      digitalClockMinute.innerHTML = minutes;
+      digitalClockSecond.innerHTML = seconds;
+    }
+
+    setInterval(updateClock, 1000);
+  </script>
+</html>
