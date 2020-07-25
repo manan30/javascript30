@@ -16,17 +16,21 @@ body {
 .links-container {
   padding: 1rem;
   min-width: 32rem;
+  max-height: 20rem;
 
   border-radius: 0.5rem;
   background-color: whitesmoke;
 
   box-shadow: 0 0 1.5rem #dddddd;
+
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .link-item {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 
   font-size: 1rem;
 }

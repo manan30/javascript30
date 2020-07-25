@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --spacing: 10px;
+        --blur: 10px;
+        --base-color: #293241;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #ff715b;
+        color: #fffbff;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      h1 {
+        font-size: 3rem;
+        text-align: center;
+      }
+
+      .h1 {
+        color: var(--base-color);
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        width: 100%;
+        margin-top: 3rem;
+      }
+
+      .control-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .control-item label {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+      }
+
+      .control-item input {
+        margin: 0;
+      }
+
+      .control-item label,
+      .control-item input {
+        height: 1.5rem;
+      }
+
+      img {
+        height: 25rem;
+        width: 40rem;
+        margin-top: 3rem;
+        padding: var(--spacing);
+
+        background-color: var(--base-color);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        filter: blur(var(--blur));
+      }
+    </style>
+    <title>03 | Playing with CSS Variables and JS</title>
+  </head>
+  <body>
+    <h1>Update CSS Variables with <span class="h1">JS</span></h1>
+    <div class="controls">
+      <div class="control-item">
+        <label for="spacing">Spacing</label>
+        <input
+          name="spacing"
+          type="range"
+          min="10"
+          max="200"
+          value="10"
+          data-sizing="px"
+        />
+      </div>
+      <div class="control-item">
+        <label for="blur">Blur</label>
+        <input
+          name="blur"
+          type="range"
+          min="0"
+          max="25"
+          value="10"
+          data-sizing="px"
+        />
+      </div>
+      <div class="control-item">
+        <label for="base-color">Base Color</label>
+        <input name="base-color" type="color" value="#293241" />
+      </div>
+    </div>
+    <img src="./assets/background.jpg" />
+  </body>
+  <script>
+    const inputs = document.querySelectorAll('input');
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+
+      document.documentElement.style.setProperty(
+        `--${this.name}`,
+        this.value + suffix
+      );
+    }
+
+    inputs.forEach((input) => input.addEventListener('change', handleUpdate));
+    inputs.forEach((input) =>
+      input.addEventListener('mousemove', handleUpdate)
+    );
+  </script>
+</html>
