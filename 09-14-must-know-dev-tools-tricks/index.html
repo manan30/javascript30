@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #eef1ef;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      body > div {
+        text-align: center;
+      }
+    </style>
+    <title>09 | 14 Must Know Dev Tools Tricks</title>
+  </head>
+  <body>
+    <div>
+      <h2>09 | 14 Must Know Dev Tools Tricks</h2>
+      <div>All output for this challenge will be in the dev tools console</div>
+    </div>
+  </body>
+  <script>
+    const dogs = [
+      { name: 'Snickers', age: 2 },
+      { name: 'hugo', age: 8 },
+    ];
+    // Various types of console output
+
+    // Regular
+    console.log('Hello Friend');
+
+    // Interpolated
+    console.log('%s', 'interpolation uses %s');
+
+    // Styled
+    // console.log('%c styling can be done with %c', 'font-size: 1rem');
+
+    // Warning
+    console.warn('I am a warning');
+
+    // Error
+    console.error('I am an error');
+
+    // Info
+    console.info('Crocodiles eat 3-4 people a year');
+
+    // Assert
+    console.assert(1 === 2, 'Only fired if the condition is falsy');
+
+    // Clear
+    // console.clear();
+
+    // Viewing DOM Elements
+    console.log(document.body);
+    console.dir(document.body);
+
+    // Grouping
+    dogs.forEach((dog) => {
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    });
+
+    // Counting
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+
+    // Timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/manan30')
+      .then((data) => data.json())
+      .then((data) => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    //Table
+    console.table(dogs);
+  </script>
+</html>
