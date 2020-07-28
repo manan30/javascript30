@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #31e981;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      body > div {
+        padding: 1rem;
+
+        background-color: #f9f7f3;
+        border-radius: 0.5rem;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+
+        padding: 1rem;
+
+        border-bottom: 1px solid #bed8d4;
+      }
+
+      .item:last-child {
+        border-bottom: 0;
+      }
+
+      .item input {
+        margin-right: 1rem;
+      }
+
+      .item input:checked + div {
+        text-decoration: line-through;
+      }
+    </style>
+    <title>10 | Hold Shift to Check Multiple Checkboxes</title>
+  </head>
+  <body>
+    <div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>This is an inbox layout</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Check one item</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Hold down your shift key</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Check a lower item</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Everything in-between should also be set to checked</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Try to do it without any libraries</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Just regular JavaScript</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Good Luck!</div>
+      </div>
+      <div class="item">
+        <input type="checkbox" />
+        <div>Don&apos;t forget to tweet your result!!</div>
+      </div>
+    </div>
+
+    <script>
+      const checkBoxElements = document.querySelectorAll('input');
+      let lastChecked;
+
+      function handleCheck(e) {
+        let inBetween = false;
+        if (e.shiftKey && this.checked) {
+          checkBoxElements.forEach((checkBox) => {
+            if (checkBox === this || checkBox === lastChecked)
+              inBetween = !inBetween;
+
+            if (inBetween) checkBox.checked = true;
+          });
+        }
+
+        lastChecked = this;
+      }
+
+      checkBoxElements.forEach((checkBox) =>
+        checkBox.addEventListener('click', handleCheck)
+      );
+    </script>
+  </body>
+</html>
