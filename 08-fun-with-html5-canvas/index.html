@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <style>
+      body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+      }
+    </style>
+    <title>08 | Fun With HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="canvas" height="800" width="800"></canvas>
+
+    <script>
+      const canvas = document.querySelector('#canvas');
+      const canvasContext = canvas.getContext('2d');
+
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+
+      canvasContext.strokeStyle = '#dd2d4a';
+      canvasContext.lineCap = 'round';
+      canvasContext.lineJoin = 'round';
+      canvasContext.lineWidth = 10;
+      // canvasContext.globalCompositeOperation = 'multiply';
+
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+      let hue = 0;
+      let direction = true;
+
+      function draw(e) {
+        if (!isDrawing) return;
+        canvasContext.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        canvasContext.beginPath();
+        canvasContext.moveTo(lastX, lastY);
+        canvasContext.lineTo(e.offsetX, e.offsetY);
+        canvasContext.stroke();
+
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+
+        hue += 1;
+
+        if (canvasContext.lineWidth >= 75 || canvasContext.lineWidth <= 1)
+          direction = !direction;
+
+        if (direction) canvasContext.lineWidth += 1;
+        else canvasContext.lineWidth -= 1;
+      }
+
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+      });
+      canvas.addEventListener('mouseup', () => (isDrawing = false));
+      canvas.addEventListener('mouseout', () => (isDrawing = false));
+    </script>
+  </body>
+</html>
