@@ -1,17 +1,23 @@
 const videoElement = document.querySelector('video');
 let isPlaying = false;
 
-const forward25Button = document.querySelector('.forward-25');
-const backward10Button = document.querySelector('.backward-10');
+const playPauseButton = document.querySelector('.play-pause-button');
+const forward25Button = document.querySelector('.forward-25-button');
+const backward10Button = document.querySelector('.backward-10-button');
 
-videoElement.addEventListener('click', () => {
+const handlePlayPauseStateChange = () => {
   if (videoElement.paused) {
-    console.dir(videoElement);
+    // console.dir(videoElement);
     videoElement.play();
+    playPauseButton.innerHTML = 'Pause';
   } else {
     videoElement.pause();
+    playPauseButton.innerHTML = 'Play';
   }
-});
+};
+
+videoElement.addEventListener('click', handlePlayPauseStateChange);
+playPauseButton.addEventListener('click', handlePlayPauseStateChange);
 
 forward25Button.addEventListener('click', () => {
   if (!videoElement.paused) {
