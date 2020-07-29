@@ -6,7 +6,7 @@ body {
   width: 100vw;
   margin: 0;
 
-  background-color: #d81159;
+  background-color: #eff1ed;
   color: #4b5569;
 
   font-family: 'Manrope', sans-serif;
@@ -16,31 +16,43 @@ body {
   position: relative;
 }
 
-/* video {
-} */
+.controls-progress-container {
+  position: absolute;
+  bottom: 0.3rem;
 
-/* video:hover + .controls-container {
-  transform: translateY(0);
-  opacity: 1;
-} */
+  width: 100%;
+}
+
+.progress-bar-container {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+  flex: 0;
+  height: 0.3rem;
+
+  background-color: red;
+}
 
 .controls-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-
-  position: absolute;
-  bottom: 0.3rem;
 
   width: calc(100% - 2rem);
   padding: 1rem;
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  /* transform: translateY(1rem); */
-  opacity: 1;
+  transform: translateY(1rem);
+  opacity: 0;
 
   transition: all 1s ease-in-out;
+}
+
+video:hover + .controls-progress-container > .controls-container {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .controls-container button {
@@ -67,4 +79,8 @@ body {
 
 .skip-buttons-container {
   margin-left: auto;
+}
+
+.video-hover {
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
 }
