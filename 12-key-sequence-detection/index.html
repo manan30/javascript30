@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12 | Key Sequence Detection</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #2f4550;
+        color: #eff1ed;
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .key-container {
+        display: grid;
+        place-items: center;
+
+        height: 20rem;
+        width: 20rem;
+        padding: 1.5rem;
+        color: #2f4550;
+
+        background-color: #eff1ed;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10rem #586f7c;
+
+        transition: all 0.5s ease-in-out;
+      }
+
+      .key-code {
+        font-size: 8rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .key {
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .key-hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="key-container">
+      <div class="key-code"></div>
+      <div class="key">Please press a key to start</div>
+    </div>
+    <script>
+      const keyContainer = document.querySelector('.key-container');
+      const keyCodeElement = document.querySelector('.key-code');
+      const keyElement = document.querySelector('.key');
+
+      window.addEventListener('keyup', (e) => {
+        keyElement.style.fontSize = '3rem';
+
+        keyCodeElement.textContent = e.keyCode;
+        keyElement.textContent = e.key;
+
+        keyContainer.classList.toggle('key-hover');
+      });
+    </script>
+  </body>
+</html>
