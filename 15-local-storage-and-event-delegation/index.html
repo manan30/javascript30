@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .main-container {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+
+        color: #4b5569;
+
+        background: url(./assets/image.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .content-container {
+        width: 20rem;
+
+        padding: 1rem;
+        background-color: #eef1ef;
+
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.5rem #4b5569;
+      }
+
+      .item-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .list-item > div {
+        margin-left: 0.5rem;
+      }
+
+      .form-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .form-container input[type='text'] {
+        flex: 1;
+        height: 1rem;
+        margin-right: 0.5rem;
+        padding: 0.5rem;
+
+        border: none;
+      }
+
+      .form-container input[type='submit'] {
+        width: 4rem;
+        padding: 0.5rem;
+
+        background-color: #4b5569;
+        border-radius: 0.2rem;
+        color: #eef1ef;
+        border: none;
+      }
+    </style>
+    <title>15 | Local Storage and Event Delegation</title>
+  </head>
+
+  <body>
+    <div class="main-container">
+      <div class="content-container">
+        <div class="items"></div>
+        <form class="form-container">
+          <input type="text" name="item" placeholder="Item Name" required />
+          <input type="Submit" value="Add" />
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    const formContainer = document.querySelector('.form-container');
+    const itemsContainer = document.querySelector('.items');
+    const items = JSON.parse(window.localStorage.getItem('items')) || [];
+
+    function populateList(items = [], element) {
+      itemsContainer.innerHTML = items
+        .map(
+          (item, i) => `
+        <div class="list-item">
+          <input type="checkbox" data-index=${i} ${
+            item.checked ? 'checked' : ''
+          }/>
+          <div>${item.text}</div>
+        </div>
+      `
+        )
+        .join('');
+    }
+
+    function handleToggle(e) {
+      if (!e.target.matches('input')) return;
+      const element = e.target;
+      const idx = element.dataset.index;
+      items[idx].checked = !items[idx].checked;
+      window.localStorage.setItem('items', JSON.stringify(items));
+      populateList(items, itemsContainer);
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const item = {
+        text: this.querySelector('[name=item]').value,
+        checked: false,
+      };
+
+      items.push(item);
+      window.localStorage.setItem('items', JSON.stringify(items));
+      populateList(items, itemsContainer);
+      this.reset();
+    }
+
+    formContainer.addEventListener('submit', handleSubmit);
+    itemsContainer.addEventListener('click', handleToggle);
+
+    populateList(items, itemsContainer);
+  </script>
+</html>
