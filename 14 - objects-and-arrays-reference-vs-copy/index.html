@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #eef1ef;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      body > div {
+        text-align: center;
+      }
+    </style>
+    <title>14 | Objects and Arrays - Reference vs Copy</title>
+  </head>
+  <body>
+    <div>
+      <h2>14 | Objects and Arrays - Reference vs Copy</h2>
+      <div>All output for this challenge will be in the dev tools console</div>
+    </div>
+  </body>
+  <script>
+    // strings, numbers and booleans (Immutable data)
+
+    // Let's say we have an array
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    // Stores a reference to the original array
+    const team = players;
+
+    console.log({ players, team });
+
+    team[3] = 'Manan';
+
+    console.log({ players, team });
+
+    // to create a new copy
+    const team2 = players.slice();
+    const team3 = [].concat(players);
+    const team4 = [...players];
+    const team5 = Array.from(players);
+
+    // Let's say we have an array
+    const person = {
+      name: 'Manan',
+      age: 25,
+    };
+
+    // Stores a reference to the original array
+    const captain = person;
+
+    // to create a new copy.
+    // Note: this will only create a shallow copy of the array or object.
+    // i.e 1 level deep
+    const person1 = Object.assign({}, person, { number: 1 });
+    const person2 = { ...person };
+  </script>
+</html>
