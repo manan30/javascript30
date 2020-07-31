@@ -59,9 +59,10 @@ body {
 footer {
   position: fixed;
   bottom: 0;
+  left: 0;
 
-  width: calc(60% - 2rem);
-  margin: 1rem;
+  width: 100vw;
+  margin-bottom: 1rem;
 
   text-align: center;
 }
@@ -82,7 +83,7 @@ footer {
   }
 
   footer {
-    width: calc(100vw - 20% - 2rem);
-    margin: 1rem;
+    width: 100vw;
+    margin-bottom: 1rem;
   }
 }

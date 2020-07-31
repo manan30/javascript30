@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+
+        background-color: #db162f;
+        color: #eef1ef;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .hero {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+      }
+
+      h1 {
+        font-size: 8rem;
+
+        text-shadow: 10px 10px 0 #0075a2;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+
+        width: 100vw;
+        margin-bottom: 1rem;
+
+        font-size: 0.8rem;
+        text-align: center;
+      }
+    </style>
+    <title>16 | CSS Text Shadow Mouse Move Effect</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>Hello Friend</h1>
+    </div>
+    <footer>Move your cursor around to play with the text shadow</footer>
+  </body>
+  <script>
+    const hero = document.querySelector('.hero');
+    const text = document.querySelector('h1');
+
+    function updateShadow(e) {
+      const { offsetHeight: height, offsetWidth: width } = hero;
+      let { offsetX: x, offsetY: y } = e;
+      const walk = 100;
+
+      if (this !== e.target) {
+        x += e.target.offsetLeft;
+        y += e.target.offsetTop;
+      }
+
+      const xWalk = Math.round((x / width) * walk - walk / 2);
+      const yWalk = Math.round((y / height) * walk - walk / 2);
+
+      text.style.textShadow = `${xWalk}px ${yWalk}px 0 #0075a2`;
+    }
+
+    hero.addEventListener('mousemove', updateShadow);
+  </script>
+</html>
