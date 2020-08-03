@@ -76,8 +76,9 @@
         border: none;
         text-decoration: none;
         border-radius: 0.5rem;
+        margin-right: 1rem;
 
-        transition: all 1s ease-in-out;
+        transition: all 0.5s ease-in-out;
         cursor: pointer;
       }
 
@@ -85,8 +86,31 @@
         box-shadow: 0 0 1rem cadetblue;
       }
 
+      .green-screen-controls {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem;
+
+        grid-template-columns: 0.2fr 1fr;
+      }
+
+      .green-screen-control-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .green-screen-control-item > label {
+        font-size: 0.8rem;
+        line-height: 1rem;
+      }
+
+      .green-screen-control-item > input {
+        height: calc(1rem - 2px);
+        margin-left: 0.5rem;
+      }
+
       video {
-        position: absolute;
+        position: fixed;
         right: 0;
         bottom: 0;
 
@@ -102,7 +126,38 @@
       <div class="photo-strip"></div>
     </div>
     <div class="controls-container">
-      <button>Take Photo</button>
+      <button class="capture-picture">Take Photo</button>
+      <button class="red-effect">Red Effect</button>
+      <button class="rgb-split">RGB Split Effect</button>
+      <button class="green-screen">Green Screen Effect</button>
+      <button class="original">Original</button>
+    </div>
+    <div style="margin-left: 1rem;">Green Screen Controls</div>
+    <div class="green-screen-controls">
+      <div class="green-screen-control-item">
+        <label for="rmin">Red Min:</label>
+        <input type="range" min="0" max="255" name="rmin" />
+      </div>
+      <div class="green-screen-control-item">
+        <label for="rmax">Red Max:</label>
+        <input type="range" min="0" max="255" name="rmax" />
+      </div>
+      <div class="green-screen-control-item">
+        <label for="gmin">Green Min:</label>
+        <input type="range" min="0" max="255" name="gmin" />
+      </div>
+      <div class="green-screen-control-item">
+        <label for="gmax">Green Max:</label>
+        <input type="range" min="0" max="255" name="gmax" />
+      </div>
+      <div class="green-screen-control-item">
+        <label for="bmin">Blue Min:</label>
+        <input type="range" min="0" max="255" name="bmin" />
+      </div>
+      <div class="green-screen-control-item">
+        <label for="bmax">Blue Max:</label>
+        <input type="range" min="0" max="255" name="bmax" />
+      </div>
     </div>
     <video></video>
   </body>
@@ -110,8 +165,13 @@
     const videoEl = document.querySelector('video');
     const canvasEl = document.querySelector('canvas');
     const photoStrip = document.querySelector('.photo-strip');
-    const capturePictureButton = document.querySelector('button');
+    const capturePictureButton = document.querySelector('.capture-picture');
+    const redEffectButton = document.querySelector('.red-effect');
+    const rgbSplitButton = document.querySelector('.rgb-split');
+    const greenScreenButton = document.querySelector('.green-screen');
+    const originalButton = document.querySelector('.original');
     const canvasContext = canvasEl.getContext('2d');
+    let effect = '';
 
     function getVideo() {
       navigator.mediaDevices
@@ -134,7 +194,12 @@
         canvasContext.drawImage(videoEl, 0, 0, width, height);
 
         let pixels = canvasContext.getImageData(0, 0, width, height);
-        pixels = rgbSplit(pixels);
+
+        if (effect === 'rgbSplit') pixels = rgbSplit(pixels);
+        else if (effect === 'redEffect') pixels = redEffect(pixels);
+        else if (effect === 'greenScreen') pixels = greenScreen(pixels);
+        else pixels = pixels;
+
         canvasContext.globalAlpha = 0.8;
         canvasContext.putImageData(pixels, 0, 0);
       }, 64);
@@ -153,7 +218,7 @@
     function rgbSplit(pixels) {
       for (let i = 0; i < pixels.data.length; i += 4) {
         pixels.data[i - 150] = pixels.data[i + 0];
-        pixels.data[i + 100] = pixels.data[i + 1];
+        pixels.data[i + 500] = pixels.data[i + 1];
         pixels.data[i - 150] = pixels.data[i + 2];
       }
 
@@ -170,6 +235,39 @@
       photoStrip.insertBefore(link, photoStrip.firstChild);
     }
     capturePictureButton.addEventListener('click', capturePicture);
+
+    redEffectButton.addEventListener('click', () => (effect = 'redEffect'));
+    rgbSplitButton.addEventListener('click', () => (effect = 'rgbSplit'));
+    greenScreenButton.addEventListener('click', () => (effect = 'greenScreen'));
+    originalButton.addEventListener('click', () => (effect = ''));
+
+    function greenScreen(pixels) {
+      const levels = {};
+
+      document.querySelectorAll('input').forEach((input) => {
+        levels[input.name] = input.value;
+      });
+
+      for (i = 0; i < pixels.data.length; i += 4) {
+        red = pixels.data[i + 0];
+        green = pixels.data[i + 1];
+        blue = pixels.data[i + 2];
+        alpha = pixels.data[i + 3];
+
+        if (
+          red >= levels.rmin &&
+          green >= levels.gmin &&
+          blue >= levels.bmin &&
+          red <= levels.rmax &&
+          green <= levels.gmax &&
+          blue <= levels.bmax
+        ) {
+          pixels.data[i + 3] = 0;
+        }
+      }
+
+      return pixels;
+    }
 
     getVideo();
     videoEl.addEventListener('canplay', paintToCanvas);
