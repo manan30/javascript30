@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #fafafa;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        height: 100%;
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+    <title>25 | Event Capture, Propagation, Bubbling and Once</title>
+  </head>
+  <body>
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const divs = document.querySelectorAll('div');
+
+    function logText(e) {
+      console.log(this.classList.value);
+
+      // stops events from bubbling up
+      e.stopPropagation();
+    }
+
+    divs.forEach((div) =>
+      div.addEventListener('click', logText, {
+        // runs during event capturing rather than event bubbling
+        // capture: true,
+        //removes event listener after it is executed once
+        // once: true,
+      })
+    );
+  </script>
+</html>
