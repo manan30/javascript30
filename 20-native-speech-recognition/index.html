@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #16425b;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .main {
+        max-height: 25rem;
+        width: 60%;
+        padding: 1.5rem;
+
+        overflow: hidden;
+        overflow-y: auto;
+
+        background-color: #eff8f2;
+        color: #16425b;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 1rem rgba(63, 116, 214, 0.5);
+      }
+    </style>
+    <title>20 | Native Speech Recognition</title>
+  </head>
+  <body>
+    <div class="main">Start speaking to perform live transcribing</div>
+  </body>
+  <script>
+    const words = document.querySelector('.main');
+    let initial = true;
+
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+      words.textContent =
+        'I am sorry this browser does not support this feature';
+    } else {
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      const recognition = new SpeechRecognition();
+      recognition.interimResults = true;
+
+      let p = document.createElement('p');
+
+      recognition.addEventListener('result', (e) => {
+        const transcript = Array.from(e.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join('');
+
+        p.textContent = transcript;
+
+        if (e.results[0].isFinal) {
+          p = document.createElement('p');
+          if (initial) {
+            words.textContent = '';
+            initial = false;
+          }
+          words.appendChild(p);
+        }
+      });
+
+      recognition.addEventListener('end', recognition.start);
+      recognition.start();
+    }
+  </script>
+</html>
