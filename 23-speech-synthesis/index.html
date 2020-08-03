@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #66101f;
+        color: #4b5569;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+
+        background-color: #eff7ff;
+        padding: 1rem;
+        width: 30rem;
+        border-radius: 0.5rem;
+
+        box-shadow: 0 0 0.2rem #dedede;
+      }
+
+      select {
+        /* height: 2rem; */
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      label {
+        font-size: 0.8rem;
+      }
+
+      input {
+        margin-bottom: 1rem;
+      }
+
+      .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        height: 2rem;
+        width: auto;
+        margin-top: 1rem;
+      }
+
+      .button-container > button {
+        width: 10rem;
+        height: 100%;
+
+        background-color: #4b5569;
+        color: #eff7ff;
+        border: none;
+        border-radius: 0.5rem;
+
+        cursor: pointer;
+
+        transition: all 0.5s;
+      }
+
+      .button-container > button:hover {
+        box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.7);
+      }
+    </style>
+    <title>23 | Speech Synthesis</title>
+  </head>
+  <body>
+    <div class="main">
+      <select name="voice" id="voices">
+        <option>Please Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate</label>
+      <input name="rate" type="range" min="0" max="3" value="1" step="0.1" />
+
+      <label for="pitch">Pitch</label>
+      <input name="pitch" type="range" min="0" max="2" step="0.1" />
+
+      <textarea name="text" rows="8">Hello I love JavaScript 👍</textarea>
+      <div class="button-container">
+        <button class="speak-button">Speak</button>
+        <button class="stop-button">Stop</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const message = new SpeechSynthesisUtterance();
+    let voices = [];
+
+    const voicesDropdown = document.querySelector('[name="voice"]');
+    const options = document.querySelectorAll('[type="range"], [name="text"]');
+    const speakButton = document.querySelector('.speak-button');
+    const stopButton = document.querySelector('.stop-button');
+
+    message.text = document.querySelector('[name="text"]').value;
+
+    function populateVoices() {
+      voices = this.getVoices();
+      const voiceOptions = voices
+        .map(
+          (voice) =>
+            `<option value=${voice.name}>${voice.name}, (${voice.lang})</option>`
+        )
+        .join('');
+      voicesDropdown.innerHTML = voiceOptions;
+    }
+
+    function setVoice() {
+      message.voice = voices.find((voice) => voice.name === this.value);
+      toggle();
+    }
+
+    function toggle(startOver = true) {
+      speechSynthesis.cancel();
+      if (startOver) speechSynthesis.speak(message);
+    }
+
+    function setOption() {
+      message[this.name] = this.value;
+      toggle();
+    }
+
+    speechSynthesis.addEventListener('voiceschanged', populateVoices);
+    voicesDropdown.addEventListener('change', setVoice);
+    options.forEach((option) => option.addEventListener('change', setOption));
+    speakButton.addEventListener('click', toggle);
+    stopButton.addEventListener('click', () => toggle(false));
+  </script>
+</html>
