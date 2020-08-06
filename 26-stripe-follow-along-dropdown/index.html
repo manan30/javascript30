@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #111d4a;
+        color: #f4fffd;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      nav {
+        width: 60%;
+        transform: translateY(-10rem);
+      }
+
+      .menu {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        list-style: none;
+        justify-content: space-around;
+      }
+
+      .menu > li {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .menu > li > a {
+        text-decoration: none;
+
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        padding: 0.7rem;
+
+        color: #f4fffd;
+      }
+
+      .dropdown-background {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1),
+          0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s, opacity 0.1s, transform 0.2s;
+        transform-origin: 50% 0;
+        display: flex;
+        justify-content: center;
+        opacity: 0;
+      }
+
+      .dropdown-background.open {
+        opacity: 1;
+      }
+
+      .arrow {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        display: block;
+        background: white;
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      .dropdown {
+        opacity: 0;
+        display: none;
+        position: absolute;
+        top: 4rem;
+        overflow: hidden;
+        transition: all 0.5s;
+        transform: translateY(100px);
+        will-change: opacity;
+        overflow-y: auto;
+        padding: 1rem;
+
+        font-size: 0.8rem;
+      }
+
+      .trigger-enter .dropdown {
+        display: block;
+      }
+
+      .trigger-enter-active .dropdown {
+        opacity: 1;
+      }
+
+      .dropdown.bio {
+        color: #111d4a;
+        font-size: 0.8rem;
+        width: 15rem;
+        transform: translateX(-4.5rem);
+      }
+
+      .dropdown > ul {
+        padding: 0;
+        list-style: none;
+        color: #111d4a;
+
+        text-align: center;
+      }
+
+      .dropdown.projects {
+        width: 10rem;
+        transform: translateX(-2rem);
+      }
+
+      .dropdown.socials {
+        width: 8rem;
+        transform: translateX(-1.5rem);
+      }
+    </style>
+    <title>26 | Stripe Follow Along DropDown</title>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="dropdown-background">
+        <span class="arrow"></span>
+      </div>
+      <ul class="menu">
+        <li>
+          <a href="#">About Me</a>
+          <div class="dropdown bio">
+            Manan Joshi is a passionate full-stack developer and loves working
+            with web technologies. He is interested in building software that
+            empowers the lives of people. He is currently pursuing his Masters's
+            Degree in Computer Science from Rochester Institute of Technology
+            and lives in Rochester, New York.
+          </div>
+        </li>
+        <li>
+          <a href="#">Projects</a>
+          <div class="dropdown projects">
+            <ul>
+              <li>Svelte Trivia</li>
+              <li>Box Office</li>
+              <li>Chandrayaan-2</li>
+              <li>Pool Table</li>
+              <li>Covid-19 Tracker</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="#">Socials</a>
+          <div class="dropdown socials">
+            <ul>
+              <li>Twitter</li>
+              <li>Github</li>
+              <li>Medium</li>
+              <li>LinkedIn</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </body>
+  <script>
+    const triggers = document.querySelectorAll('.menu > li');
+    const background = document.querySelector('.dropdown-background');
+    const nav = document.querySelector('.nav');
+
+    function handleEnter() {
+      this.classList.add('trigger-enter');
+
+      setTimeout(
+        () =>
+          this.classList.contains('trigger-enter') &&
+          this.classList.add('trigger-enter-active'),
+        150
+      );
+
+      background.classList.add('open');
+      const dropdown = this.querySelector('.dropdown');
+      const dropdownCoords = dropdown.getBoundingClientRect();
+      const navCoords = nav.getBoundingClientRect();
+
+      const coords = {
+        height: dropdownCoords.height,
+        width: dropdownCoords.width,
+        top: dropdownCoords.top - navCoords.top,
+        left: dropdownCoords.left - navCoords.left,
+      };
+
+      background.style.setProperty('height', `${coords.height}px`);
+      background.style.setProperty('width', `${coords.width}px`);
+      background.style.setProperty(
+        'transform',
+        `translate(${coords.left}px, ${coords.top}px)`
+      );
+    }
+
+    function handleLeave() {
+      this.classList.remove('trigger-enter', 'trigger-enter-active');
+      background.classList.remove('open');
+    }
+
+    triggers.forEach((trigger) =>
+      trigger.addEventListener('mouseenter', handleEnter)
+    );
+    triggers.forEach((trigger) =>
+      trigger.addEventListener('mouseleave', handleLeave)
+    );
+  </script>
+</html>
