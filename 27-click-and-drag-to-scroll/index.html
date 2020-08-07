@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+
+        background-color: #111d4a;
+        color: #f4fffd;
+
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .items {
+        display: flex;
+        align-items: center;
+
+        height: 15rem;
+        width: 100%;
+        border: 1px solid white;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        user-select: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        transform: scale(0.98);
+        will-change: transform;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 0;
+        perspective: 500px;
+      }
+
+      .items.active {
+        background: rgba(255, 255, 255, 0.3);
+        cursor: grabbing;
+        transform: scale(1);
+      }
+
+      .item {
+        display: grid;
+        place-items: center;
+        flex: 1 0 auto;
+
+        height: calc(100% - 2rem);
+        width: 10rem;
+
+        color: rgba(0, 0, 0, 0.15);
+        font-size: 2rem;
+        box-shadow: inset 0 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .item:nth-child(9n + 1) {
+        background: dodgerblue;
+      }
+      .item:nth-child(9n + 2) {
+        background: goldenrod;
+      }
+      .item:nth-child(9n + 3) {
+        background: paleturquoise;
+      }
+      .item:nth-child(9n + 4) {
+        background: gold;
+      }
+      .item:nth-child(9n + 5) {
+        background: cadetblue;
+      }
+      .item:nth-child(9n + 6) {
+        background: tomato;
+      }
+      .item:nth-child(9n + 7) {
+        background: lightcoral;
+      }
+      .item:nth-child(9n + 8) {
+        background: darkslateblue;
+      }
+      .item:nth-child(9n + 9) {
+        background: rebeccapurple;
+      }
+
+      .item:nth-child(even) {
+        transform: scaleX(1.2) rotateY(33deg);
+      }
+      .item:nth-child(odd) {
+        transform: scaleX(1.2) rotateY(-33deg);
+      }
+    </style>
+    <title>27 | Click and Drag to Scroll</title>
+  </head>
+  <body>
+    <div class="items">
+      <div class="item item-1">Item 1</div>
+      <div class="item item-2">Item 2</div>
+      <div class="item item-3">Item 3</div>
+      <div class="item item-4">Item 4</div>
+      <div class="item item-5">Item 5</div>
+      <div class="item item-6">Item 6</div>
+      <div class="item item-7">Item 7</div>
+      <div class="item item-8">Item 8</div>
+      <div class="item item-9">Item 9</div>
+      <div class="item item-10">Item 10</div>
+      <div class="item item-11">Item 11</div>
+      <div class="item item-12">Item 12</div>
+      <div class="item item-13">Item 13</div>
+      <div class="item item-14">Item 14</div>
+      <div class="item item-15">Item 15</div>
+      <div class="item item-16">Item 16</div>
+      <div class="item item-17">Item 17</div>
+      <div class="item item-18">Item 18</div>
+      <div class="item item-19">Item 19</div>
+      <div class="item item-20">Item 20</div>
+      <div class="item item-21">Item 21</div>
+      <div class="item item-22">Item 22</div>
+      <div class="item item-23">Item 23</div>
+      <div class="item item-24">Item 24</div>
+      <div class="item item-25">Item 25</div>
+      <div class="item item-26">Item 26</div>
+      <div class="item item-27">Item 27</div>
+      <div class="item item-28">Item 28</div>
+      <div class="item item-29">Item 29</div>
+      <div class="item item-30">Item 30</div>
+      <div class="item item-31">Item 31</div>
+      <div class="item item-32">Item 32</div>
+      <div class="item item-33">Item 33</div>
+      <div class="item item-34">Item 34</div>
+    </div>
+  </body>
+  <script>
+    const slider = document.querySelector('.items');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.classList.add('active');
+
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = x - startX;
+      slider.scrollLeft = scrollLeft - walk;
+    });
+  </script>
+</html>
